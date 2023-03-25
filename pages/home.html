@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <title>Produ-Track: Profile</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="account.html">Account</a></li>
+                    <li class="logo"><a href="home.html"><img src="../images/logo.png" alt="Produ-Track Logo"></a></li>
+                    <li class="logout"><a href="../index.html">Log Out</a></li>
+                </ul>
+            </nav>
+            <!-- <h1>Home</h1> -->
+            </nav>
+        </header>
+        <section>
+            <div id="greeting_container">
+        
+            </div>
+            <div id="cal_container">
+                <div id="cal_header"></div>
+                <div id="weekdays">
+                    <div>Sunday</div>
+                    <div>Monday</div>
+                    <div>Tuesday</div>
+                    <div>Wednesday</div>
+                    <div>Thursday</div>
+                    <div>Friday</div>
+                    <div>Saturday</div>
+                </div>
+                <div id="calendar">
+
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="metric one">
+                <h2 class="title task">Task List</h2>
+                <form id="task-form">
+                    <input 
+                        type="text"
+                        name="task-input"
+                        class="to-do" 
+                        placeholder="What do I need to do?"/>
+                    <input
+                        type="date"
+                        name="Date"
+                        class="date"/>
+                    <input 
+                        type="submit" 
+                        class="task-submit" 
+                        value="Add task"/>
+                </form>
+            <div class="task-list">
+                <h3 hidden>Tasks</h3>
+                <div class="tasks">
+                  <!--   <div class="task">
+                        <div class="content">
+                            <p class="text" contenteditable="false">Go to the gym</p>
+                        </div>
+                        <div class="actions">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="task">
+                        <div class="content">
+                            <p class="text" contenteditable="false">Wash Dishes</p>
+                        </div>
+                        <div class="actions">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            </div>
+            <div class="metric two">
+                <div class="workout-header">
+                    <h2 class="title_workouts">Workouts</h2>
+                    <div class="dropdown">
+                        <button class="dropbtn">Workout Type</button>
+                            <div id="workoutsDropdown" class="dropdown-content">
+                                <a href="#">Weight Training 🏋️</a>
+                                <a href="#">Cardio 🏃</a>
+                                <a href="#">Calisthenics 💪</a>
+                            </div>
+                        <input type="text" name="exercise-input" class="exercise-input" placeholder="Exercise"/>
+                    </div>
+                
+                    <div class="workout-frequency">
+                        <input
+                            hidden
+                            type="date"
+                            name="Date"
+                            class="workout_date"/>
+                            
+                    </div>
+                    <div class="add-exercise">
+                        <input 
+                            type="submit" 
+                            class="exercise-submit"
+                            hidden
+                            value="Add Exercise"/>
+                    </div>
+                </div>
+                <div class="workout-data">
+                    <div class="workout-container">
+                        <!-- <input type="text" name="sets" class="exercise-input" placeholder="Sets"/> -->
+                        <!-- <h3 class="workout_name"></h3> -->
+                        <input 
+                            type="submit" 
+                            class="reps_weight_btn"
+                            hidden
+                            value="Add Reps & Weight"/>
+                    </div>
+                    <input 
+                            type="submit" 
+                            class="time_distance_btn"
+                            hidden
+                            value="Add Time & Distance"/>
+                    </div>
+                </div>
+            </div>
+            <div class="metric three">
+                <div class="misc-header">
+                    <h2 class="title_workouts">Miscellaneous</h2>
+                </div>
+            </div>
+        </section>
+        <footer>footer</footer>
+        <script src="../script.js"></script>
+    </body>
+    </html>
+</html>

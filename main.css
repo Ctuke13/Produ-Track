@@ -1,0 +1,662 @@
+:root {
+    --dark: #374151;
+    --darker: #1f2937;
+    --darkest: #111827;
+    --light-gray: #b6b9c1;
+    --light: #eee;
+    --pink:#EC4899;
+    --purple: #8B5CF6;
+    --blue: #79addc;
+    --orange: #ffc09f;
+    --yellow: #ffee93;
+    --light-yellow:#fcf5c7;
+    --green:#adf7b6;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family:'Fira sans', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--dark);
+    color: rgb(255, 255, 255);
+    font-family: Helvetica Neue, Helvetica, Arial;
+    margin:0;
+    padding: 0px;
+}
+
+header {
+    /* background: linear-gradient(black, black), url("images/to-do.jpeg"); */
+    background-color: var(--light);
+    background-size: cover;
+    background-blend-mode: saturation;
+    margin: 0px;
+    /* padding: 20px; */
+}
+
+
+
+.logo {
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    display: flex;
+    color: var(--green);
+    justify-content: center;
+    margin: 0;
+}
+
+nav {
+    display: block;
+}
+
+nav ul {
+    color: rgb(0, 0, 0);
+    margin: auto;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+}
+
+li {
+    display: inline-flex;
+    margin: 0 20px 0 0;
+}
+
+nav ul li.logout {
+    margin-left: auto;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    background-color: var(--light);
+    margin-top: 20px;
+}
+
+/*-------------------------CALENDAR-------------------------------*/
+
+/* button {
+    width: 75px;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px gray;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+  } */
+  
+  #cal_header {
+    padding: 10px;
+    color: #d36c6c;
+    font-size: 26px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #header button {
+    background-color:#92a1d1;
+  }
+
+  #cal_container {
+    display:block;
+    justify-content: center;
+    width: 1500px;
+  }
+
+  #weekdays {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    color: #247BA0;
+  }
+
+  #weekdays div {
+    align-items: center;
+    width: 60px;
+    flex-basis: calc(100% / 7);
+    padding: 5px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  #calendar {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .day {
+    width: 100px;
+    padding: 10px;
+    height: 100px;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: white;
+    margin: 5px;
+    box-shadow: 0px 0px 3px #CBD4C2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .day:hover {
+    background-color: #e8faed;
+  }
+  
+  .day + #currentDay {
+    background-color:#e8f4fa;
+  }
+
+  .event {
+    font-size: 10px;
+    padding: 3px;
+    background-color: #58bae4;
+    color: white;
+    border-radius: 5px;
+    max-height: 55px;
+    overflow: hidden;
+  }
+
+  .padding {
+    cursor: default !important;
+    background-color: #FFFCFF !important;
+    box-shadow: none !important;
+  }
+
+  #newEventModal, #deleteEventModal {
+    display: none;
+    z-index: 20;
+    padding: 25px;
+    background-color: #e8f4fa;
+    box-shadow: 0px 0px 3px black;
+    border-radius: 5px;
+    width: 350px;
+    top: 100px;
+    left: calc(50% - 175px);
+    position: absolute;
+    font-family: sans-serif;
+  }
+
+  #eventTitleInput {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 0px 3px gray;
+  }
+
+  #eventTitleInput.error {
+    border: 2px solid red;
+  }
+
+  #cancelButton, #deleteButton {
+    background-color: #d36c6c;
+  }
+
+  #saveButton, #closeButton {
+    background-color: #92a1d1;
+  }
+
+  #eventText {
+    font-size: 14px;
+  }
+
+  #modalBackDrop {
+    display: none;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  /*------------------------------------------*/
+
+h2 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.task-form {
+    display: flex;
+}
+
+input, button {
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.to-do {
+    flex: 1 1 0%;
+    background-color: var(--dark);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    color: var(--light);
+    font-size: 1.25rem;
+}
+
+.to-do::placeholder {
+    color: var(--light-gray);
+}
+
+.date, .workout_date {
+    color:var(--light-gray);
+    background-color: var(--dark);
+    font-size: 1rem;
+    border:var(--darkest);
+    border-radius: 1rem;
+    padding: .5rem;
+}
+
+h4 {
+    font-size:1rem;
+    padding: 1rem;
+}
+
+.task-submit {
+    color: var(--pink);
+    font-size: 1.25rem;
+    background-image: linear-gradient(to right, var(--blue), var(--purple)); /* add gradient colors to bg*/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.task-submit:hover {
+    opacity: 0.8;
+}
+
+.task-submit:active {
+    opacity: 0.6;
+}
+
+div.metric {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background: rgb(204, 134, 218);
+    padding: 20px;
+    margin: 20px;
+    height:100%;
+    align-items: center;
+    flex-wrap: wrap;
+    border-radius: 30px;
+    /* text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+div.metric.one {
+    flex: 1 1 0%;
+    padding: 2rem 1rem;
+    max-width: 450px;
+    width:100%;
+    /* margin: 0 auto; */
+    background-color: var(--green);
+    
+}
+
+.task-list {
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.task-list {
+    font-size:40px;
+    font-weight: 300;
+    color: var(--gray);
+    margin-bottom: 1rem;
+}
+
+.tasks .task{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darkest);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+
+}
+
+.tasks .task .content {
+    flex: 1 1 0%;
+    /* min-width: 100px;
+    max-width: 300px;
+    word-wrap: break-word; */
+}
+
+.tasks .task .content .text {
+    color: var(--light);
+    font-size: 1.125rem;
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+    display: inline-block;
+    transition: 0.4s;
+}
+
+.tasks .task .content .text:not(:read-only) {
+    color:var(--pink);
+}
+
+.tasks .task .actions {
+    display: flex;
+    margin: 0 -0.5rem;
+}
+
+.task .actions button {
+    cursor: pointer;
+    margin: 0 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: 0.4s;
+}
+
+.task .actions button:hover {
+    opacity: 0.8;
+}
+
+.task .actions button:active {
+    opacity: 0.6;
+}
+
+.task .actions .edit {
+    background-image: linear-gradient(to right, var(--pink), var(--purple)); /* add gradient colors to bg*/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.task .actions .delete {
+    color: var(--orange);
+}
+
+div form.task-form {
+    border-radius: 10px;
+}
+
+footer {
+    background: black;
+    padding: 10px 20px;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+div.metric.two {
+    display:block;
+    position: relative;
+    align-items: center;
+    background-color: var(--blue);
+    flex: 1 1 0%;
+    padding: 2rem 1rem;
+    max-width: 450px;
+    width:100%;
+}
+
+.workout-header {
+    display: block;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    display:flex;
+    margin-right: 10px;
+    background-color: var(--darker);
+    border-radius: 1rem;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+
+  .dropbtn::after {
+    content: "";
+    display: inline-block;
+    margin-left: 5px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid white;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    position: relative;
+    top: -2px;
+  }
+  
+  /* Style the dropdown content */
+  .dropdown-content {
+    display: none;
+    background-color: var(--dark);
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 20px;
+    position: absolute;
+    z-index: 1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 1rem;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: var(--darker);
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropbtn {
+    display: inline-block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    
+    background-color: var(--dark);
+  }
+
+  .exercise-input {
+    display:inline-block;
+    /* top:0; */
+    /* left: calc(100% +10px); */
+    background-color: var(--dark);
+    margin-left: 4px;
+    padding: 1rem;
+    border-radius: 1rem;
+    color:var(--light-gray)
+  }
+
+  div .sets_input {
+    display:flex;
+    background-color: var(--dark);
+    margin-top: 10px;
+    margin-left: 4px;
+    padding: 1rem;
+    border-radius: 1rem;
+    color:var(--light-gray);
+    min-width: calc(8ch + 10px);
+    max-width: calc(8ch + 20px);
+  }
+
+  div .time_input {
+    display:inline-block;
+    background-color: var(--dark);
+    margin-top: 10px;
+    margin-left: 4px;
+    padding: 1rem;
+    border-radius: 1rem;
+    color:var(--light-gray);
+    min-width: calc(11ch + 10px);
+    max-width: calc(11ch + 20px);
+  }
+
+  div .distance_input {
+    display:inline-block;
+    background-color: var(--dark);
+    margin-top: 10px;
+    margin-left: 4px;
+    padding: 1rem;
+    border-radius: 1rem;
+    color:var(--light-gray);
+    min-width: calc(15ch + 10px);
+    max-width: calc(15ch + 20px);
+  }
+
+  .exercise-submit {
+    color: var(--pink);
+    font-size: 1.25rem;
+    background-image: linear-gradient(to right, var(--orange), var(--light)); /* add gradient colors to bg*/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-left: 20px;
+}
+
+.exercise-submit:hover {
+    opacity: 0.8;
+    
+}
+
+.sets_input {
+    display: flex;
+    float: left;
+    min-width: 50px;
+}
+
+.workout-frequency{
+    display:block;
+    float: left;
+}
+
+.workout-container {
+    display: flex;
+    flex-direction: column;
+    float:left;
+}
+
+.add-exercise {
+    display:inline-block;
+    float: left;
+    margin:10px;
+    margin-left: 20px;
+}
+
+.exercise-submit:active {
+    display:inline-block;
+    opacity: 0.6;
+    margin:10px;
+    
+}
+
+.workout_name {
+    display:block;
+    padding: 1rem;
+    margin-top: 10px;
+    max-width:300px;
+    max-height: 1000px;
+    overflow-y: auto;
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.workout_data {
+    display: block;
+}
+
+.reps_input, .weight_input {
+    display: block;
+    color: var(--light);
+    justify-content: space-between;
+    background-color: var(--dark);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.reps_input .weight_input::placeholder {
+    color: var(--light-gray);
+}
+
+.reps_weight_btn {
+    color: var(--pink);
+    font-size: 1.25rem;
+    background-image: linear-gradient(to right, var(--orange), var(--light)); /* add gradient colors to bg*/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-left: 20px;
+}
+
+.reps_weight_btn:hover {
+    opacity: 0.8;
+    
+}
+
+.reps_weight_btn:active {
+    display:inline-block;
+    opacity: 0.6;
+    margin:10px;
+    
+}
+
+  /* ---------------------------------------------------------------------------------------- */
+
+  div.metric.three {
+    background-color: var(--orange);
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    1px 1px 3px rgba(0, 0, 0, 0.8);
+    flex: 1 1 0%;
+    padding: 2rem 1rem;
+    max-width: 450px;
+    width:100%;
+}
