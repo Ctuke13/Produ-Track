@@ -11,6 +11,7 @@
     --yellow: #ffee93;
     --light-yellow:#fcf5c7;
     --green:#adf7b6;
+    --white:#ffffff;
 }
 
 * {
@@ -74,7 +75,9 @@ nav ul li.logout {
     margin-left: auto;
 }
 
-section {
+
+
+section.metrics {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -86,8 +89,15 @@ section {
 }
 
 /*-------------------------CALENDAR-------------------------------*/
+section.status {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+    /* background-color: #FFFCFF;*/
+    background-color: var(--light); 
+}
 
-/* button {
+  .cal_btn {
     width: 75px;
     cursor: pointer;
     box-shadow: 0px 0px 2px gray;
@@ -95,9 +105,10 @@ section {
     outline: none;
     padding: 5px;
     border-radius: 5px;
-    color: white;
-  } */
-  
+    color: var(--blue);
+    background-color: var(--dark);
+  }
+
   #cal_header {
     padding: 10px;
     color: #d36c6c;
@@ -105,6 +116,8 @@ section {
     font-family: sans-serif;
     display: flex;
     justify-content: space-between;
+    color: #247BA0;
+    
   }
 
   #header button {
@@ -112,25 +125,23 @@ section {
   }
 
   #cal_container {
-    display:block;
-    justify-content: center;
-    width: 1500px;
+    width: 770px;
+    
   }
 
   #weekdays {
-    align-items: center;
     width: 100%;
     display: flex;
     color: #247BA0;
+    
+    /* font-size: 2.5rem; */
+    /* font-weight: 300; */
   }
 
   #weekdays div {
-    align-items: center;
-    width: 60px;
-    flex-basis: calc(100% / 7);
-    padding: 5px;
-    text-align: center;
-    box-sizing: border-box;
+    width: 100px;
+    padding: 10px;
+    margin: 10px 10px 0px;
   }
 
   #calendar {
@@ -152,6 +163,7 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: var(--dark);
   }
 
   .day:hover {
@@ -170,6 +182,7 @@ section {
     border-radius: 5px;
     max-height: 55px;
     overflow: hidden;
+    
   }
 
   .padding {
@@ -190,9 +203,11 @@ section {
     left: calc(50% - 175px);
     position: absolute;
     font-family: sans-serif;
+    min-height: 500px;
+    min-width: 500px;
   }
 
-  #eventTitleInput {
+  #eventInput {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -203,16 +218,22 @@ section {
     box-shadow: 0px 0px 3px gray;
   }
 
-  #eventTitleInput.error {
+  #eventInput.error {
     border: 2px solid red;
   }
 
   #cancelButton, #deleteButton {
     background-color: #d36c6c;
+    border-radius: 1rem;
+    color:var(--light);
+    padding: 5px;
   }
 
   #saveButton, #closeButton {
     background-color: #92a1d1;
+    border-radius: 1rem;
+    color: var(--light);
+    padding: 5px;
   }
 
   #eventText {
@@ -288,6 +309,10 @@ h4 {
     -webkit-text-fill-color: transparent;
     cursor: pointer;
     transition: 0.4s;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.8), 
+     1px -1px 1px rgba(0, 0, 0, 0.8), 
+    -1px 1px 1px rgba(0, 0, 0, 0.8), 
+   /* 1px 1px 1px rgba(0, 0, 0, 0.8); */
 }
 
 .task-submit:hover {
@@ -296,6 +321,7 @@ h4 {
 
 .task-submit:active {
     opacity: 0.6;
+    
 }
 
 div.metric {
@@ -507,7 +533,9 @@ div.metric.two {
     margin-left: 4px;
     padding: 1rem;
     border-radius: 1rem;
-    color:var(--light-gray)
+    color:var(--light-gray);
+    min-width: calc(20ch + 10px);
+    max-width: calc(20ch + 20px);
   }
 
   div .sets_input {
@@ -522,16 +550,17 @@ div.metric.two {
     max-width: calc(8ch + 20px);
   }
 
-  div .time_input {
+.time_input {
     display:inline-block;
     background-color: var(--dark);
     margin-top: 10px;
     margin-left: 4px;
+    margin-right: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     color:var(--light-gray);
-    min-width: calc(11ch + 10px);
-    max-width: calc(11ch + 20px);
+    min-width: calc(15ch + 10px);
+    max-width: calc(15ch + 20px);
   }
 
   div .distance_input {
@@ -549,12 +578,16 @@ div.metric.two {
   .exercise-submit {
     color: var(--pink);
     font-size: 1.25rem;
-    background-image: linear-gradient(to right, var(--orange), var(--light)); /* add gradient colors to bg*/
+    background-image: linear-gradient(to right, var(--orange), var(--white)); /* add gradient colors to bg*/
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     cursor: pointer;
     transition: 0.4s;
     margin-left: 20px;
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    /*1px 1px 3px rgba(0, 0, 0, 0.8);*/
 }
 
 .exercise-submit:hover {
@@ -580,10 +613,11 @@ div.metric.two {
 }
 
 .add-exercise {
-    display:inline-block;
+    display: inline-block;
     float: left;
     margin:10px;
     margin-left: 20px;
+    margin-top: 20px;
 }
 
 .exercise-submit:active {
@@ -593,7 +627,7 @@ div.metric.two {
     
 }
 
-.workout_name {
+.exercise_data {
     display:block;
     padding: 1rem;
     margin-top: 10px;
@@ -620,6 +654,11 @@ div.metric.two {
     margin-bottom: 1rem;
 }
 
+.weight_input {
+    margin-bottom: 3rem;
+}
+
+
 .reps_input .weight_input::placeholder {
     color: var(--light-gray);
 }
@@ -633,6 +672,7 @@ div.metric.two {
     cursor: pointer;
     transition: 0.4s;
     margin-left: 20px;
+    margin-top: 5px;
 }
 
 .reps_weight_btn:hover {

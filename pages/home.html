@@ -19,27 +19,46 @@
             <!-- <h1>Home</h1> -->
             </nav>
         </header>
-        <section>
+        <section class="status">
             <div id="greeting_container">
-        
             </div>
-            <div id="cal_container">
-                <div id="cal_header"></div>
-                <div id="weekdays">
-                    <div>Sunday</div>
-                    <div>Monday</div>
-                    <div>Tuesday</div>
-                    <div>Wednesday</div>
-                    <div>Thursday</div>
-                    <div>Friday</div>
-                    <div>Saturday</div>
+                <div id="cal_container">
+                    <div id="cal_header">
+                        <div id="monthDisplay"></div>
+                        <div>
+                            <button class="cal_btn" id="backButton">Back</button>  
+                            <button class="cal_btn" id="nextButton">Next</button>  
+                        </div>
+                    </div>
+                    <div id="weekdays">
+                        <div>Sunday</div>
+                        <div>Monday</div>
+                        <div>Tuesday</div>
+                        <div>Wednesday</div>
+                        <div>Thursday</div>
+                        <div>Friday</div>
+                        <div>Saturday</div>
+                    </div>
+                    <div id="calendar">
+                    </div>
                 </div>
-                <div id="calendar">
+                <div id="newEventModal">
+                    <h2 class="eventTitle"></h2>
+                    <input id="eventInput" placeholder="Event Title"/>
+                    <button id="saveButton">Save</button>
+                    <button id="cancelButton">Cancel</button>
+                </div>
+                <div id="deleteEventModal">
+                    <h2 class="eventTitle">Event</h2>
 
+                    <p id="eventText"></p>
+
+                    <button id="deleteButton">Delete</button>
+                    <button id="closeButton">Close</button>
                 </div>
-            </div>
+                <div id="modalBackDrop"></div>
         </section>
-        <section>
+        <section class="metrics">
             <div class="metric one">
                 <h2 class="title task">Task List</h2>
                 <form id="task-form">
@@ -131,7 +150,7 @@
             </div>
             <div class="metric three">
                 <div class="misc-header">
-                    <h2 class="title_workouts">Miscellaneous</h2>
+                    <h2 class="title_workouts">Activity Timer</h2>
                 </div>
             </div>
         </section>
