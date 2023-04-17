@@ -86,12 +86,24 @@ section.metrics {
     margin-bottom: 1rem;
     background-color: var(--light);
     margin-top: 20px;
+    padding: 5px 0px;
+}
+
+/*---------------------------------GREETING---------------------------------*/
+section.status {
+  display: flex;
+  margin-top: 10px;
+  padding-top: 50px;
+  justify-content: center;
+  /* background-color: #FFFCFF;*/
+  background-color: var(--light); 
 }
 
 /*-------------------------CALENDAR-------------------------------*/
-section.status {
+
+section.calendar {
     display: flex;
-    margin-top: 50px;
+    padding-top: 50px;
     justify-content: center;
     /* background-color: #FFFCFF;*/
     background-color: var(--light); 
@@ -174,24 +186,32 @@ section.status {
     background-color:#e8f4fa;
   }
 
-  .event {
+  .event  {
     font-size: 10px;
     padding: 3px;
-    background-color: #58bae4;
+    background-color: var(--green);
+    color: var(--dark);
+    border-radius: 5px;
+    max-height: 55px;
+    overflow: hidden;
+  }
+
+.workout_event {
+    font-size: 10px;
+    padding: 3px;
+    background-color: var(--blue);
     color: white;
     border-radius: 5px;
     max-height: 55px;
     overflow: hidden;
-    
-  }
-
+}
   .padding {
     cursor: default !important;
     background-color: #FFFCFF !important;
     box-shadow: none !important;
   }
 
-  #newEventModal, #deleteEventModal {
+  #newEventModal, #dayEventModal {
     display: none;
     z-index: 20;
     padding: 25px;
@@ -205,6 +225,15 @@ section.status {
     font-family: sans-serif;
     min-height: 500px;
     min-width: 500px;
+  }
+
+  .eventTitle {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+    1px -1px 3px rgba(0, 0, 0, 0.8), 
+    -1px 1px 3px rgba(0, 0, 0, 0.8), 
+    1px 1px 3px rgba(0, 0, 0, 0.8);
   }
 
   #eventInput {
@@ -222,22 +251,100 @@ section.status {
     border: 2px solid red;
   }
 
-  #cancelButton, #deleteButton {
+   #cancelButton, #deleteButton {
     background-color: #d36c6c;
     border-radius: 1rem;
     color:var(--light);
-    padding: 5px;
+    padding: 10px;
+    margin-left: 15px;
   }
 
-  #saveButton, #closeButton {
+  #editButton, #saveButton  {
     background-color: #92a1d1;
+    border-radius: 2rem;
+    color: var(--light);
+    padding: 10px;
+    margin-top:5px;
+    margin-left: 15px;
+  }
+
+  #closeButton {
+    display: flex;
+    background-color: #d75e5e;
     border-radius: 1rem;
     color: var(--light);
     padding: 5px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+ }
+  #eventText {
+    display:block;
+    font-size: 14px;
+    background-color: var(--green);
+    color: var(--dark);
+    border-radius: 1rem;
+    min-width: calc(20ch + 10px);
+    max-width: calc(20ch + 20px);
+    padding: 5px;
+    margin: 10px;
+  } 
+  
+    #workoutText {
+    display:block;
+    font-size: 25px;
+    background-color: var(--blue);
+    color: var(--dark);
+    border-radius: 1rem;
+    border: 1px solid var(--dark);
+    min-width: calc(20ch + 10px);
+    max-width: calc(20ch + 20px);
+    padding: 5px;
+    margin: 25px 5px 0px;
+    text-shadow: -1px -1px 3px rgba(255, 255, 255, 0.8), 
+    1px -1px 3px rgba(255, 255, 255, 0.8), 
+    -1px 1px 3px rgba(255, 255, 255, 0.8), 
+    1px 1px 3px rgba(255, 255, 255, 0.8); 
   }
 
-  #eventText {
-    font-size: 14px;
+  #setsHeading {
+    display: inline-block;
+    font-size: 15px;
+    text-shadow: none;
+    margin-left: 5px;
+  }
+
+  #repsHeading, #weightHeading {
+    display: inline-block;
+    font-size: 15px;
+    text-shadow: none;
+    margin-left: 10px;
+  }
+
+  #repsHeading {
+    margin-top: 5px;
+  }
+
+  #weightHeading {
+    margin-bottom: 15px;
+    margin-left: 15px;
+  }
+
+  #reps_for_day, #weight_for_day {
+    display: inline;
+    margin-left: 5px;
+    border: 1px solid var(--darker);
+    min-width: calc(3ch + 10px);
+    max-width: calc(3ch + 20px);
+    text-align: center;
+    border-radius: 2px;
+  }
+
+  #reps_for_day {
+    margin-right: 10px;
+    
   }
 
   #modalBackDrop {
@@ -251,11 +358,21 @@ section.status {
     background-color: rgba(0,0,0,0.8);
   }
 
+  #sets_for_day {
+    display: inline;
+  }
+
+  #setsHeading {
+    display: inline-block;
+    font-size: 15px;
+  }
+
   /*------------------------------------------*/
 
 h2 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 50px;
+    margin-bottom: 10px;
     text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
     1px -1px 3px rgba(0, 0, 0, 0.8), 
     -1px 1px 3px rgba(0, 0, 0, 0.8), 
@@ -298,7 +415,12 @@ input, button {
 
 h4 {
     font-size:1rem;
-    padding: 1rem;
+}
+
+div#workout-date-input {
+    font-size: 15px;
+    padding-bottom: 10px;
+    margin: 0px 5px 20px;
 }
 
 .task-submit {
@@ -446,6 +568,7 @@ div.metric.two {
     flex: 1 1 0%;
     padding: 2rem 1rem;
     max-width: 450px;
+    min-width: 400px;
     width:100%;
 }
 
@@ -455,150 +578,171 @@ div.metric.two {
 }
 
 .dropdown {
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
 }
 
 .dropbtn {
-    display:flex;
-    margin-right: 10px;
-    background-color: var(--darker);
-    border-radius: 1rem;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
+  display: flex;
+  align-items: center;
+  background-color: var(--darker);
+  border-radius: 1rem;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  max-width: 200px;
+  min-width: 200px;
+
+}
+
+.dropbtn::after {
+  content: "";
+  display: inline-block;
+  margin-left: 5px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid white;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  position: relative;
+  top: -2px;
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  min-width: 160px;
+  padding: 8px 0;
+  border-radius: 1rem;
+  background-color: var(--dark);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  top:100%;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 1rem;
+  font-size: 11px;
+  min-width: calc(20ch + 10px);
+  max-width: calc(20ch + 20px);
+}
+
+.dropdown-content a:hover {
+  background-color: var(--darker);
+}
+
+/* Show the dropdown content when the dropdown button is hovered */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Hide the unordered list by default */
+.dropdown-content ul {
+  display: none;
+
+}
+
+/* Show the unordered list when the dropdown button is hovered */
+.dropdown:hover .dropdown-content ul {
+  display: block;
+  max-width: 100px;
+  padding: 0px 20px;
+}
+
+.exercise-input {
+  display:inline-block;
+  background-color: var(--dark);
+  margin-left: 15px;
+  padding: 1rem;
+  border-radius: 1rem;
+  color:var(--light-gray);
+  min-width: calc(20ch + 10px);
+  max-width: calc(20ch + 20px);
   }
 
-  .dropbtn::after {
-    content: "";
-    display: inline-block;
-    margin-left: 5px;
-    width: 0;
-    height: 0;
-    border-top: 5px solid white;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    position: relative;
-    top: -2px;
-  }
-  
-  /* Style the dropdown content */
-  .dropdown-content {
-    display: none;
-    background-color: var(--dark);
-    align-items: flex-start;
-    justify-content: flex-start;
-    font-size: 20px;
-    position: absolute;
-    z-index: 1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    border-radius: 1rem;
-    padding: 8px 0;
-    font-size: 14px;
+div .sets_input {
+  display:flex;
+  background-color: var(--dark);
+  margin-top: 10px;
+  margin-left: 4px;
+  padding: 1rem;
+  border-radius: 1rem;
+  color:var(--light-gray);
+  min-width: calc(8ch + 10px);
+  max-width: calc(8ch + 20px);
   }
 
-  .dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border-radius: 1rem;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: var(--darker);
-  }
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
+  .sets_input {
+    float: left;
   }
 
-  .dropbtn {
-    display: inline-block;
-  }
-  
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropbtn {
-    
-    background-color: var(--dark);
-  }
+div .rounds_input {
+  display:flex;
+  background-color: var(--dark);
+  margin-top: 10px;
+  margin-left: 4px;
+  padding: 1rem;
+  border-radius: 1rem;
+  color:var(--light-gray);
+  min-width: calc(10ch + 10px);
+  max-width: calc(10ch + 20px); 
+}
 
-  .exercise-input {
-    display:inline-block;
-    /* top:0; */
-    /* left: calc(100% +10px); */
-    background-color: var(--dark);
-    margin-left: 4px;
-    padding: 1rem;
-    border-radius: 1rem;
-    color:var(--light-gray);
-    min-width: calc(20ch + 10px);
-    max-width: calc(20ch + 20px);
-  }
-
-  div .sets_input {
-    display:flex;
-    background-color: var(--dark);
-    margin-top: 10px;
-    margin-left: 4px;
-    padding: 1rem;
-    border-radius: 1rem;
-    color:var(--light-gray);
-    min-width: calc(8ch + 10px);
-    max-width: calc(8ch + 20px);
-  }
+.rounds_input {
+  float: left;
+}
 
 .time_input {
-    display:inline-block;
-    background-color: var(--dark);
-    margin-top: 10px;
-    margin-left: 4px;
-    margin-right: 1rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    color:var(--light-gray);
-    min-width: calc(15ch + 10px);
-    max-width: calc(15ch + 20px);
-  }
+  display:inline-block;
+  background-color: var(--dark);
+  margin-top: 10px;
+  margin-left: 4px;
+  margin-right: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  color:var(--light-gray);
+  min-width: calc(15ch + 10px);
+  max-width: calc(15ch + 20px);
+}
 
-  div .distance_input {
-    display:inline-block;
-    background-color: var(--dark);
-    margin-top: 10px;
-    margin-left: 4px;
-    padding: 1rem;
-    border-radius: 1rem;
-    color:var(--light-gray);
-    min-width: calc(15ch + 10px);
-    max-width: calc(15ch + 20px);
-  }
+div .distance_input {
+  display:inline-block;
+  background-color: var(--dark);
+  margin-top: 10px;
+  margin-left: 4px;
+  padding: 1rem;
+  border-radius: 1rem;
+  color:var(--light-gray);
+  min-width: calc(15ch + 10px);
+  max-width: calc(15ch + 20px);
+}
 
-  .exercise-submit {
-    color: var(--pink);
-    font-size: 1.25rem;
-    background-image: linear-gradient(to right, var(--orange), var(--white)); /* add gradient colors to bg*/
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    cursor: pointer;
-    transition: 0.4s;
-    margin-left: 20px;
-    text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
-    1px -1px 3px rgba(0, 0, 0, 0.8), 
-    -1px 1px 3px rgba(0, 0, 0, 0.8), 
-    /*1px 1px 3px rgba(0, 0, 0, 0.8);*/
+.exercise-submit {
+  color: var(--pink);
+  font-size: 1.25rem;
+  background-image: linear-gradient(to right, var(--orange), var(--white)); /* add gradient colors to bg*/
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  transition: 0.4s;
+  margin-left: 20px;
+  text-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8), 
+  1px -1px 3px rgba(0, 0, 0, 0.8), 
+  -1px 1px 3px rgba(0, 0, 0, 0.8), 
+  /*1px 1px 3px rgba(0, 0, 0, 0.8);*/;
 }
 
 .exercise-submit:hover {
     opacity: 0.8;
     
-}
-
-.sets_input {
-    display: flex;
-    float: left;
-    min-width: 50px;
 }
 
 .workout-frequency{
@@ -640,11 +784,19 @@ div.metric.two {
     1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+.set_number {
+    font-size: 20px;
+}
+
+.round_number {
+  font-size: 20px;
+}
+
 .workout_data {
     display: block;
 }
 
-.reps_input, .weight_input {
+.reps_input, .weight_input, .mins_input {
     display: block;
     color: var(--light);
     justify-content: space-between;
@@ -663,7 +815,7 @@ div.metric.two {
     color: var(--light-gray);
 }
 
-.reps_weight_btn {
+.reps_weight_btn, .rounds_btn {
     color: var(--pink);
     font-size: 1.25rem;
     background-image: linear-gradient(to right, var(--orange), var(--light)); /* add gradient colors to bg*/
@@ -699,4 +851,6 @@ div.metric.two {
     padding: 2rem 1rem;
     max-width: 450px;
     width:100%;
+    max-width: 450px;
+    min-width: 400px;
 }

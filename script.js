@@ -1,4 +1,73 @@
 window.addEventListener('load', () => {
+  /*-----------------LOG IN-----------------*/
+
+  const signUpLink = document.getElementById('sign-up-link');
+  const signUpSubmit = document.getElementById('sign-up-submit');
+  const signUpModal = document.querySelector('.sign-up-modal');
+
+  signUpLink.addEventListener('click', () => {
+    signUpModal.removeAttribute('hidden');
+  });
+
+  const users = [];
+
+  signUpSubmit.addEventListener('click', () => {
+    const firstName = document.getElementById('first_name').value;
+    const lastName = document.getElementById('last_name').value;
+    const dob = document.getElementById('dob').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('sign-up-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (!firstName || !lastName || !dob || !email || !password || !confirmPassword) {
+      alert('Please fill out all fields');
+      return;
+    } else if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    } else if (users.find(user => user.email === email)) {
+      alert('Email already exists');
+      return;
+    } else { 
+      users.push({
+        firstName,
+        lastName,
+        dob,
+        email,
+        password
+      });
+
+      localStorage.setItem('user', JSON.stringify(users));
+      signUpModal.setAttribute('hidden', true);
+    }
+  });
+
+  const logInSubmit = document.getElementById('log-in-btn');
+
+  logInSubmit.addEventListener('click', () => {
+    const email = document.getElementById('log-in-email').value;
+    const password = document.getElementById('log-in-password').value;
+
+    if (!email || !password) {
+      alert('Please fill out all fields');
+      return;
+    } else if (!users.find(user => user.email === email)) {
+      alert('Email does not exist');
+      return;
+    } else if (users.find(user => user.email === email && user.password !== password)) {
+      alert('Incorrect password');
+      return;
+    } else {
+      localStorage.setItem('currentUser', email);
+      window.location.href = 'home.html';
+    }
+  }); 
+
+  /*-----------------HOME-----------------*/
+
+  const savedUsers = JSON.parse(localStorage.getItem('user'));
+  console.log(savedUsers);
+
 
   /*------CALENDAR----------*/
 
@@ -8,27 +77,185 @@ window.addEventListener('load', () => {
 
     const calendar = document.getElementById('calendar');
     const newEventModal = document.getElementById('newEventModal');
-    const deleteEventModal = document.getElementById('deleteEventModal');
+    const dayEventModal = document.getElementById('dayEventModal');
     const backDrop = document.getElementById('modalBackDrop');
     const eventInput= document.getElementById('eventInput');
     const dayTitle = document.querySelector('.eventTitle');
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const exerciseData = Object.values(localStorage).map(data => JSON.parse(data)).filter(data => data.exercise);
+    console.log(exerciseData);
 
     function openModal(date) {
+      const day = document.createElement('h2');
+      day.id = 'dayTitle';
+      day.innerText = date;
+      dayEventModal.appendChild(day);
       clicked = date;
-      console.log(dayTitle.innerText);
       dayTitle.innerText = date;
-      console.log(dayTitle.innerText);
-      const eventForDay = events.find(e => e.date === clicked);
+      
 
-      if (eventForDay) {
-        document.getElementById('eventText').innerText = eventForDay.title;
-        deleteEventModal.style.display = 'block';
-      } else {
-        newEventModal.style.display = 'block';
-        backDrop.style.display = 'block';
+      console.log(dayTitle.innerText);
+      console.log(events);
+      
+
+      const closeButton = document.createElement('button');
+      closeButton.id = 'closeButton';
+      closeButton.innerText = 'Close';
+      
+      closeButton.addEventListener('click', function() {
+        closeModal();
+      });
+      dayEventModal.appendChild(closeButton);
+
+      const exerciseForDay = exerciseData.filter(e => {
+        const formattedDate = new Date(e.date).toLocaleDateString('en-US', {
+          month:'numeric',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          timeZoneName: 'short'
+        });
+
+        const clickedDate = new Date(clicked).toLocaleString('en-US', {
+          month:'numeric',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          timeZoneName: 'short'
+        });
+        
+        console.log(dayTitle.innerText)
+        return formattedDate === clickedDate;
+      });
+        console.log(exerciseForDay);
+    
+
+          if(clicked) {
+            dayEventModal.style.display = 'block';
+          } else {
+            newEventModal.style.display = 'block';
+            backDrop.style.display = 'block';
+          }
+
+      console.log(exerciseForDay);
+      console.log(exerciseForDay[0].exercise)
+
+      if (exerciseForDay) {
+        for (const [index, value] of exerciseForDay.entries()) {
+          const exerciseOfDay = document.createElement('p');
+          exerciseOfDay.id = 'workoutText';
+          exerciseOfDay.contentEditable = false;
+          exerciseOfDay.innerText = exerciseForDay[index].exercise;
+          const setsHeading = document.createElement('h3');
+          setsHeading.innerText = "Sets:";
+          const sets = document.createElement('input');
+          sets.id = "sets_for_day";
+          sets.readOnly = true;
+          exerciseOfDay.appendChild(setsHeading);
+          setsHeading.id = "setsHeading";
+          setsHeading.appendChild(sets);
+          sets.value = ` ${exerciseForDay[index].sets}`;
+
+          
+          for(const key in exerciseForDay[index]) {
+            if (key.startsWith('rep_')) {
+          const repKey = exerciseForDay[index][key];  
+          const repsHeading = document.createElement('h3');
+          repsHeading.innerText = `Rep ${key.slice(4)}:`;
+          const reps = document.createElement('input');
+          reps.id = "reps_for_day";
+          reps.readOnly = true;
+          exerciseOfDay.appendChild(repsHeading);
+          repsHeading.id = "repsHeading";
+          repsHeading.appendChild(reps);
+          reps.value = repKey;
+}
+
+          if (key.startsWith('weight_')) {
+            const weightKey = exerciseForDay[index][key];  
+            const weightHeading = document.createElement('h3');
+            weightHeading.innerText = 'Weight:';
+            const weight = document.createElement('input');
+            weight.id = "weight_for_day";
+            weight.readOnly = true;
+            exerciseOfDay.appendChild(weightHeading);
+            weightHeading.id = "weightHeading";
+            weightHeading.appendChild(weight);
+            weight.value = weightKey;
+}
+          };
+          dayEventModal.appendChild(exerciseOfDay);
+          const editButton = document.createElement('button');
+          editButton.id = "editButton";
+          editButton.innerText = "Edit";
+          exerciseOfDay.insertAdjacentElement("afterend", editButton);
+
+      let isEditable = false;
+
+      editButton.addEventListener('click', function() { 
+            const setsInput = exerciseOfDay.querySelector('#sets_for_day');
+            const repsInputs = exerciseOfDay.querySelectorAll('[id^=reps_for_day]');
+            const weightInputs = exerciseOfDay.querySelectorAll('[id^=weight_for_day]');
+            const workoutText = document.querySelectorAll('[id^=workoutText]');
+
+          if (!isEditable) {
+          setsInput.readOnly = false;
+          for (let i = 0; i < repsInputs.length; i++) {
+            repsInputs[i].readOnly = false;
+            repsInputs[i].style.borderColor = "red";
+            
+          }
+          for (let i = 0; i < weightInputs.length; i++) {
+            weightInputs[i].readOnly = false;
+            weightInputs[i].style.borderColor = "red";
+          }
+          editButton.innerText = "Save";
+          
+        } else {
+              setsInput.readOnly = true;
+              for (let i = 0; i < repsInputs.length; i++) {
+                repsInputs[i].readOnly = true;
+                repsInputs[i].style.borderColor = "var(--darkest)";
+              }
+              for (let i = 0; i < weightInputs.length; i++) {
+                weightInputs[i].readOnly = true;
+                weightInputs[i].style.borderColor = "var(--darkest)";
+              }
+              editButton.innerText = "Edit";
+              workoutText[i].contentEditable = false;
+              workoutText[i].style.borderColor = "var(--darkest)";
+            }
+            isEditable = !isEditable;
+      });
+
+          const deleteButton = document.createElement('button');
+          deleteButton.id = "deleteButton";
+          deleteButton.innerText = "Delete";
+          editButton.insertAdjacentElement("afterend", deleteButton);
+          deleteButton.addEventListener('click', function() {
+            const confirmDelete = confirm('Are you sure you want to delete this workout?');
+            if (confirmDelete) {
+              const workout = deleteButton.previousElementSibling.previousElementSibling;
+              const exerciseText = workout.childNodes[0].textContent.trim();
+
+              if(exerciseText === exerciseForDay[index].exercise) {
+                workout.remove();
+                deleteButton.remove();
+                editButton.remove();
+                localStorage.removeItem(exerciseText);
+                         
+              }
+            }
+            location.reload();
+    });
+        }
       }
     };
+
 
     const form = document.querySelector("#task-form");
     const input =  document.querySelector(".to-do");
@@ -64,6 +291,7 @@ window.addEventListener('load', () => {
 
       calendar.innerHTML = ''
 
+
       for(let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
         daySquare.classList.add(`day`);
@@ -77,6 +305,16 @@ window.addEventListener('load', () => {
           if (i - paddingDays === day && nav === 0) {
             daySquare.id = 'currentDay'
           }
+
+          exerciseData.forEach(exercise => {
+            const exerciseDate = new Date(exercise.date);
+            if (exerciseDate.getFullYear() === year && exerciseDate.getMonth() === month && exerciseDate.getDate() === i - paddingDays) {
+              const workout = document.createElement('div');
+              workout.classList.add('workout_event');
+              workout.innerText = exercise.exercise;
+              daySquare.appendChild(workout);
+            }
+          });
 
           if (eventForDay) {
             const eventDiv = document.createElement('div');
@@ -97,9 +335,10 @@ window.addEventListener('load', () => {
     function closeModal(){
       eventInput.classList.add('error');
       newEventModal.style.display = 'none';
-      deleteEventModal.style.display = 'none';
+      dayEventModal.style.display = 'none';
       backDrop.style.display = 'none';
       eventInput.value = '';
+      dayEventModal.innerHTML = '';
       clicked = null;
       load();
     };
@@ -119,11 +358,19 @@ window.addEventListener('load', () => {
       }
     };
 
-    function deleteEvent() {
-      events = events.filter(e => e.date !== clicked);
-      localStorage.setItem('events', JSON.stringify(events));
+    function deleteEvent(index) {
+      exerciseData.splice(index, 1);
+      localStorage.setItem('exercise', JSON.stringify(exerciseData));
       closeModal();
     };
+
+    function editEvent(index) {
+      const exerciseText = document.getElementById('workoutText');
+      const updateExercise = prompt('Enter the updated exercise:');
+      exerciseData[index].exercise = updateExercise;
+      // exerciseText.innerText = updatedExercise;
+      localStorage.setItem('exercise', JSON.stringify(exerciseData));
+    }
 
     function initButtons() {
       document.getElementById('nextButton').addEventListener('click', () => {
@@ -140,10 +387,11 @@ window.addEventListener('load', () => {
 
       document.getElementById('cancelButton').addEventListener('click', closeModal);
       
-      document.getElementById('deleteButton').addEventListener('click', deleteEvent);
-      document.getElementById('closeButton').addEventListener('click', closeModal);
-    };
+      // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+      // document.getElementById('closeButton').addEventListener('click', closeModal);
+    }
 
+    if (location.pathname === '/home.html') {
     initButtons();
     load();
     
@@ -246,7 +494,7 @@ window.addEventListener('load', () => {
                   range.collapse(false);
                   const selection = window.getSelection();
                   selection.removeAllRanges();
-                  seletestction.addRange(range);
+                  selection.addRange(range);
                 } else {
                   paragraph.contentEditable = false;
                   e.target.textContent = "Edit";
@@ -272,12 +520,13 @@ window.addEventListener('load', () => {
     let optionSelected = false;
     let setsCreated = false;
     let cardioInputsCreated = false;
+    let roundsCreated = false;
     let time_el, distance_el, reps_el, weight_el;
 
     const exerciseSubmit = document.querySelector(".exercise-submit");
     const workoutDate = document.querySelector(".workout_date");
-    const workoutDate_el = document.createElement('h4');
-    workoutDate_el.setAttribute('id','date-input');
+    const workoutDate_el = document.createElement('div');
+    workoutDate_el.setAttribute('id','workout-date-input');
     
   
     const addExercise = document.querySelector(".exercise-submit")
@@ -288,17 +537,22 @@ window.addEventListener('load', () => {
     
     dropdown.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log(e.target.textContent);
       drpdwnBtn.innerText = e.target.textContent;
       workoutDate.removeAttribute("hidden");
 
         if(e.target.textContent == "Weight Training 🏋️" || e.target.textContent == "Calisthenics 💪") {
-          // hide cardio inputs
+          // hide other exercise inputs
           if (cardioInputsCreated) {
             exercise_el.removeChild(time_el);
             exercise_el.removeChild(distance_el);
             cardioInputsCreated = false;
           }
+
+          if (roundsCreated) {
+            exercise_el.removeChild(rounds_el);
+            roundsCreated = false;
+          }
+
           console.log(drpdwnBtn)
           // create sets input
           if (!setsCreated) {
@@ -313,12 +567,18 @@ window.addEventListener('load', () => {
           
         }
           optionSelected = true;
+
         } else if(e.target.textContent == "Cardio 🏃") {
           // hide sets input
           if(setsCreated) {
             const setsEl = document.querySelector(".sets_input");
             exercise_el.removeChild(setsEl);
             setsCreated = false;
+          }
+
+          if(roundsCreated) {
+            exercise_el.removeChild(rounds_el);
+            boxingInputsCreated = false;
           }
 
           // create cardio inputs
@@ -344,9 +604,36 @@ window.addEventListener('load', () => {
 
         optionSelected = true;
 
-      } else {
+      } else if(e.target.textContent == "Boxing 🥊") {
+          // hide other exercise inputs
+          if (cardioInputsCreated) {
+            exercise_el.removeChild(time_el);
+            exercise_el.removeChild(distance_el);
+            cardioInputsCreated = false;
+          }
+
+          if(setsCreated) {
+            const setsEl = document.querySelector(".sets_input");
+            exercise_el.removeChild(setsEl);
+            setsCreated = false;
+          }
+
+          if(!roundsCreated) {
+            rounds_el = document.createElement("input");
+            rounds_el.type = "number";
+            rounds_el.name = "rounds";
+            rounds_el.classList.add("rounds_input");
+            rounds_el.placeholder = "Rounds";
+            rounds_el.min = 0;
+            exercise_el.appendChild(rounds_el);
+            roundsCreated = true;
+          }
+
+          optionSelected = true;
+          
+        } else {
         optionSelected = false;
-      }
+      };
 
       if (optionSelected) {
         exerciseSubmit.removeAttribute("hidden");
@@ -357,33 +644,88 @@ window.addEventListener('load', () => {
 
       const addRepsBtn = document.querySelector('.reps_weight_btn');
       addRepsBtn.setAttribute("hidden", "");
+      
+      const addRoundsBtn = document.querySelector('.rounds_btn');
+      addRoundsBtn.setAttribute("hidden", "");
 
       const addCardioBtn = document.querySelector('.time_distance_btn');
       addRepsBtn.setAttribute("hidden", "");
       
       let exerciseObject = {};
+      let storageKeys = Object.keys(localStorage); 
+      console.log(storageKeys);
+      const  exerciseDataContainer = document.createElement('h3');
+
+      function updateExerciseObject(storageKeys, exerciseObject) {
+        const formattedExercise = exerciseObject.exercise.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const regex = new RegExp(`^${formattedExercise}(\\s+\\d+)?|${formattedExercise}$`, 'i');
+        const matchingKeys = storageKeys.filter(key => regex.test(key.toLowerCase()));
+        let nextNumber = 1;
+
+        console.log(matchingKeys);
+
+        if (matchingKeys.length === 1) {
+          const match = matchingKeys[0].match(/\d+$/);
+          console.log(match);
+          if (match) {
+            nextNumber = parseInt(match[0]) + 1;
+            console.log(match)
+          } else {
+            nextNumber = 2;
+            console.log(match);
+          }
+          exerciseObject.exercise = `${formattedExercise} ${nextNumber}`;
+        } else if (matchingKeys.length > 1) {
+          const matchingNumbers = matchingKeys.map(key => {
+            const match = key.match(/\d+$/);
+            return match ? parseInt(match[0]) : 0;
+          });
+          nextNumber = Math.max(...matchingNumbers) + 1;
+          exerciseObject.exercise = `${formattedExercise} ${nextNumber}`;
+        } else {
+          exerciseObject.exercise = `${formattedExercise}`;
+        }
+      };
 
       addExercise.addEventListener('click', (e) => {
         const sets = document.querySelector('.sets_input');
+        const rounds = document.querySelector('.rounds_input');
         const time = document.querySelector('.time_input');
         const distance = document.querySelector('distance_input');
 
-        const  exerciseData = document.createElement('h3');
-        exerciseData.classList.add('exercise_data');
+
+        
+        exerciseDataContainer.classList.add('exercise_data');
 
         const workoutName = document.createElement('div')
         workoutName.classList.add('workout_name')
-        exerciseData.appendChild(workoutName);
+        exerciseDataContainer.appendChild(workoutName);
         workoutName.innerText = exerciseInput.value;
-        workoutContainer.appendChild(exerciseData);
-        console.log(workoutDate.value);
-        console.log(exerciseData.innerText);
+        workoutContainer.appendChild(exerciseDataContainer);
+
+        const exercise_value = exerciseInput.value;
+        if(!exercise_value) {
+          alert("Please enter an exercise")
+          return;
+        };
 
         const workoutDate_value = workoutDate.value;
         if(!workoutDate_value) {
           alert("Please select date")
           return;
         };
+
+        if(!exercise_value || !workoutDate_value) {
+          alert("Please enter exercise name and date")
+          return;
+        } else if(!exercise_value) {
+          alert("Please enter exercise name")
+          return;
+        } else if(!workoutDate_value) {
+          alert("Please enter date")
+          return;
+        } else {
+
 
         // Parse the date value into a Date object
         const workoutDate_obj = new Date(`${workoutDate_value}T00:00:00.000`);
@@ -394,7 +736,7 @@ window.addEventListener('load', () => {
 
         // Format the date using the user's locale
         const formatted_date = workoutDate_obj.toLocaleDateString( user_locale, {
-          month: 'short',
+          month: 'long',
           day: 'numeric',
           year: 'numeric',
         })
@@ -402,21 +744,25 @@ window.addEventListener('load', () => {
         
         // Set content of the h4 element to the formatted date
         workoutDate_el.textContent = formatted_date;
-        exerciseData.appendChild(workoutDate_el);
-        console.log(workoutDate_obj)
+        exerciseDataContainer.appendChild(workoutDate_el);
 
         const date = workoutDate_obj.getDate();
         console.log(date);
 
         if(drpdwnBtn.innerText == "Weight Training 🏋️" || drpdwnBtn.innerText == "Calisthenics 💪") {
           for(let i = 0; i < sets.value; i++) {
+          set_number = document.createElement('div');
+          set_number.classList.add('set_number');
+          set_number.innerText = `Set ${i + 1}`;
+          exerciseDataContainer.appendChild(set_number);
+
           reps_el = document.createElement("input");
           reps_el.type = "text"
           reps_el.name = `rep_${i +1}`
           reps_el.classList.add("reps_input");
           reps_el.id = `rep_${i + 1}`
-          reps_el.placeholder = `Rep ${i +1}`;
-          exerciseData.appendChild(reps_el);
+          reps_el.placeholder = `Reps`;
+          exerciseDataContainer.appendChild(reps_el);
 
           weight_el = document.createElement("input");
           weight_el.type = "text"
@@ -424,50 +770,196 @@ window.addEventListener('load', () => {
           weight_el.classList.add("weight_input");
           weight_el.id = `weight_${i + 1}`
           weight_el.placeholder = "Weight (lbs)";
-          exerciseData.appendChild(weight_el);
+          exerciseDataContainer.appendChild(weight_el);
 
-          exerciseData.appendChild(addRepsBtn)
+          exerciseDataContainer.appendChild(addRepsBtn)
           addRepsBtn.removeAttribute("hidden");
-          } 
+
+          if(exerciseDataContainer.children.length > 0) {
+            const lastElement = exerciseDataContainer.children[exerciseDataContainer.children.length - 2];
+              lastElement.style.marginBottom = "0px";
+            } 
+    
+          exerciseInput.value = " ";
+
+          exerciseObject.exercise = workoutName.innerText;
+          exerciseObject.date = formatted_date;
+          exerciseObject.sets = sets.value;
+          exerciseObject.type = drpdwnBtn.innerText;
+          console.log(exerciseObject.exercise);
+
+          updateExerciseObject(storageKeys, exerciseObject);
+
+          console.log(exerciseObject);
+        }
+
+      }else if(drpdwnBtn.innerText == "Boxing 🥊") {
+        for(let i = 0; i < rounds.value; i++) {
+          round_number = document.createElement('div');
+          round_number.classList.add('round_number');
+          round_number.innerText = `Round ${i + 1}`;
+          exerciseDataContainer.appendChild(round_number);
+
+          mins_el = document.createElement("input");
+          mins_el.type = "number"
+          mins_el.name = `mins_${i + 1}`
+          mins_el.classList.add("mins_input");
+          mins_el.id = `mins_${i + 1}`
+          mins_el.placeholder = "Minutes";
+          exerciseDataContainer.appendChild(mins_el);
+
+          exerciseDataContainer.appendChild(addRoundsBtn)
+          addRoundsBtn.removeAttribute("hidden");
+
+          if(exerciseDataContainer.children.length > 0) {
+            const lastElement = exerciseDataContainer.children[exerciseDataContainer.children.length - 2];
+              lastElement.style.marginBottom = "0px";
+            } 
+    
+          exerciseInput.value = " ";
+
+          exerciseObject.exercise = workoutName.innerText;
+          exerciseObject.date = formatted_date;
+          exerciseObject.rounds = rounds.value;
+          exerciseObject.type = drpdwnBtn.innerText;
+          console.log(exerciseObject.exercise);
+
+          updateExerciseObject(storageKeys, exerciseObject);
+
+          console.log(exerciseObject);
+        }
         } else if (drpdwnBtn.innerText == "Cardio 🏃") {
+          if(!time_el.value || !distance_el.value) {
+            alert("Please enter time and distance")
+            return;
+          } else if(!time_el) {
+            alert("Please enter time")
+            return;
+          } else if(!distance_el) {
+            alert("Please enter distance")
+            return;
+          } else {
+            exerciseObject.time = time_el.value;
+            exerciseObject.distance = distance_el.value;
+            exerciseObject.date = formatted_date;
+            exerciseObject.exercise = workoutName.innerText;
+            exerciseObject.type = drpdwnBtn.innerText;
+            updateExerciseObject(storageKeys, exerciseObject);
+            let exerciseString = JSON.stringify(exerciseObject);
+            console.log(exerciseString)
+            localStorage.setItem(`${exerciseObject.exercise}`, exerciseString);
+            let exerciseObj = JSON.parse(localStorage.getItem(exerciseObject.exercise))
+            console.log(exerciseObject);
+            console.log(exerciseObj);
 
-        }
-        
-        if(exerciseData.children.length > 0) {
-        const lastElement = exerciseData.children[exerciseData.children.length - 2];
-          lastElement.style.marginBottom = "0px";
-        }
-
-        exerciseObject.exercise = workoutName.innerText;
-        exerciseObject.date = formatted_date;
+            if(exerciseObject) {
+              const dateObj = new Date(exerciseObject.date);
+              const month = dateObj.toLocaleDateString('default', {month: 'long'});
+              const year = dateObj.getFullYear();
+              const day = dateObj.getDate();
+              const monthDisplay = document.querySelector('#monthDisplay');
+              const day_els = document.querySelectorAll('#calendar .day:not([class*="padding"])');
+              const exerciseKey = workoutName.innerText;
+              
+              day_els.forEach(day_el => {
+              if (monthDisplay.textContent.includes(month) && monthDisplay.textContent.includes(year)) {
+                if (day_el.innerText == day) {
+                  console.log(day_el);
+                  console.log(day);
+                  const existingWorkout = day_el.querySelector('.workout_event');
+                  console.log(existingWorkout);
+                  if (existingWorkout) {
+                    existingWorkout.innerText = exerciseKey;
+                  } else {
+                    const workout = document.createElement('div');
+                    workout.classList.add('workout_event');
+                    workout.innerText = exerciseKey;
+                    day_el.appendChild(workout);
+                  }
+                }
+                exerciseDataContainer.innerHTML = "";
+              }
+            });
+            
+            load();
+          }
+              
+        };
+      };  
+    };
     });
 
-    
       addRepsBtn.addEventListener('click', () => {
-        let i = 1;
-        let repsExist = true;
-        let weightExist = true;
-        while(repsExist && weightExist) {
-          let rep = document.getElementById('rep_' + i);
-          let weight = document.getElementById('weight_' + i);
+        const exerciseKey = exerciseObject.exercise;
+
+        for(let i = 1; ; i++) {
+          const rep = document.getElementById(`rep_` + i);
+          const weight = document.getElementById(`weight_` + i);
+
+          if(!rep || !weight) {
+            break;
+          };
 
           if (rep && weight) {           
             if (!rep.value && !weight.value) {
-              alert('Please enter a value for both rep and weight.');
+              alert(`Please enter the amount of reps and weight for set ${i}.`);
+              return;
             } else if (!rep.value) {
-              alert(`Please enter a value for rep ${rep.id}`);
-            } else {
-              alert(`Please enter a value for weight ${weight.id}.`);
+              alert(`Please enter the amount of reps for set ${i}`);
+              return;
+            } else if (!weight.value) {
+              alert(`Please enter the amount of weight for set ${i}.`);
+              return;
             }
+
             exerciseObject[rep.id] = rep.value;
             exerciseObject[weight.id] = weight.value;
-            i++;  
-          } else {
-          repsExist = false;
-          weightExist = false;
-          break;
+            const exerciseString = JSON.stringify(exerciseObject);
+            localStorage.setItem(`${exerciseObject.exercise}`, exerciseString);
+            } 
+          }
+      let exerciseObj = JSON.parse(localStorage.getItem("exerciseObject"))
+      console.log(exerciseObj);
+
+      const exerciseLoggedData = JSON.parse(localStorage.getItem(exerciseKey));
+      console.log(exerciseLoggedData);
+
+
+      if(exerciseLoggedData) {
+
+        const dateObj = new Date(exerciseLoggedData.date);
+        const month = dateObj.toLocaleDateString('default', {month: 'long'});
+        const year = dateObj.getFullYear();
+        const day = dateObj.getDate();
+        console.log(month);
+        console.log(year);
+        console.log(day);
+        const monthDisplay = document.querySelector('#monthDisplay');
+        const day_els = document.querySelectorAll('#calendar .day:not([class*="padding"])');
+        
+        day_els.forEach(day_el => {
+        if (monthDisplay.textContent.includes(month) && monthDisplay.textContent.includes(year)) {
+          if (day_el.innerText == day) {
+            console.log(day_el)
+            const existingWorkout = day_el.querySelector('.workout_event');
+            if (existingWorkout) {
+              existingWorkout.innerText = exerciseKey;
+            } else {
+              const workout = document.createElement('div');
+              workout.classList.add('workout_event');
+              workout.innerText = exerciseKey;
+              day_el.appendChild(workout);
+            }
+          }
         }
-      }
-    });
-        console.log(exerciseObject);
+      }); 
+    }
+    exerciseDataContainer.innerHTML = '';
+    console.log(exerciseDataContainer);
+    setTimeout(() => {
+      load();
+      location.reload(); 
+    }, 0);
   });
+}       
+});

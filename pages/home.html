@@ -21,42 +21,8 @@
         </header>
         <section class="status">
             <div id="greeting_container">
-            </div>
-                <div id="cal_container">
-                    <div id="cal_header">
-                        <div id="monthDisplay"></div>
-                        <div>
-                            <button class="cal_btn" id="backButton">Back</button>  
-                            <button class="cal_btn" id="nextButton">Next</button>  
-                        </div>
-                    </div>
-                    <div id="weekdays">
-                        <div>Sunday</div>
-                        <div>Monday</div>
-                        <div>Tuesday</div>
-                        <div>Wednesday</div>
-                        <div>Thursday</div>
-                        <div>Friday</div>
-                        <div>Saturday</div>
-                    </div>
-                    <div id="calendar">
-                    </div>
-                </div>
-                <div id="newEventModal">
-                    <h2 class="eventTitle"></h2>
-                    <input id="eventInput" placeholder="Event Title"/>
-                    <button id="saveButton">Save</button>
-                    <button id="cancelButton">Cancel</button>
-                </div>
-                <div id="deleteEventModal">
-                    <h2 class="eventTitle">Event</h2>
-
-                    <p id="eventText"></p>
-
-                    <button id="deleteButton">Delete</button>
-                    <button id="closeButton">Close</button>
-                </div>
-                <div id="modalBackDrop"></div>
+                <h2 id="greeting">Hello</h2>
+            </div>       
         </section>
         <section class="metrics">
             <div class="metric one">
@@ -106,11 +72,14 @@
                     <h2 class="title_workouts">Workouts</h2>
                     <div class="dropdown">
                         <button class="dropbtn">Workout Type</button>
-                            <div id="workoutsDropdown" class="dropdown-content">
-                                <a href="#">Weight Training 🏋️</a>
-                                <a href="#">Cardio 🏃</a>
-                                <a href="#">Calisthenics 💪</a>
-                            </div>
+                        <div id="workoutsDropdown" class="dropdown-content">
+                          <ul>
+                            <li><a href="#">Boxing 🥊</a></li>
+                            <li><a href="#">Calisthenics 💪</a></li>
+                            <li><a href="#">Cardio 🏃</a></li>
+                            <li><a href="#">Weight Training 🏋️</a></li>
+                          </ul>
+                        </div>
                         <input type="text" name="exercise-input" class="exercise-input" placeholder="Exercise"/>
                     </div>
                 
@@ -139,6 +108,11 @@
                             class="reps_weight_btn"
                             hidden
                             value="Add Reps & Weight"/>
+                            <input 
+                            type="submit" 
+                            class="rounds_btn"
+                            hidden
+                            value="Add Rounds"/>
                     </div>
                     <input 
                             type="submit" 
@@ -154,6 +128,38 @@
                 </div>
             </div>
         </section>
+        <section class="calendar">
+            <div id="cal_container">
+                <div id="cal_header">
+                    <div id="monthDisplay"></div>
+                    <div>
+                        <button class="cal_btn" id="backButton">Back</button>  
+                        <button class="cal_btn" id="nextButton">Next</button>  
+                    </div>
+                </div>
+                <div id="weekdays">
+                    <div>Sunday</div>
+                    <div>Monday</div>
+                    <div>Tuesday</div>
+                    <div>Wednesday</div>
+                    <div>Thursday</div>
+                    <div>Friday</div>
+                    <div>Saturday</div>
+                </div>
+                <div id="calendar">
+                </div>
+            </div>
+            <div id="newEventModal">
+                <h2 class="eventTitle"></h2>
+                <input id="eventInput" placeholder="Event Title"/>
+                <button id="saveButton">Save</button>
+                <button id="cancelButton">Cancel</button>
+            </div>
+            <div id="dayEventModal">
+                
+            </div>
+            <div id="modalBackDrop"></div>
+        </section>   
         <footer>footer</footer>
         <script src="../script.js"></script>
     </body>

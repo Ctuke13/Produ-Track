@@ -7,17 +7,35 @@
     </head>
     <body>
         <div class="container">
-          <div class="background"></div>
+          <div class="background">
+            <div class="overlay"></div>
+            <div class="text">
+              <h1 class="welcome">Welcome!</h1>
+              <p class="summary">Track your workouts and overall productivity!</p>
+            </div>
+          </div>
           <div class="form-container">
             <div class="logo"></div>
             <form class="form">
-              <input type="email" placeholder="Email" required>
-              <input type="password" placeholder="Password" required>
-              <button type="submit">Log In</button>
+              <input type="email" placeholder="Email" id="log-in-email" required>
+              <input type="password" placeholder="Password" id="log-in-password" required>
+              <button type="submit" id="log-in-btn">Log In</button>
               <a href="#">Forgot Password?</a>
             </form>
             <div class="alt-login">
-              <p>Don't have an account yet? <a href="#">Sign Up</a></p>
+              <p>Don't have an account yet? <a href="#" id="sign-up-link">Sign Up</a></p>
+              <div class="sign-up-modal" id="sign-up-modal" hidden>
+                <h2 id="sign-up-title">Sign Up</h2>
+                <form class="sign-up-form">
+                  <input type="text" id="first_name" placeholder="First Name" required>
+                  <input type="text" id="last_name" placeholder="Last Name" required>
+                  <div id="dob_text">Date of Birth</div>
+                  <input type="date" id="dob" placeholder="Date of Birth" name="dob">
+                  <input type="email" id="email" placeholder="Email" required>
+                  <input type="password" id="sign-up-password" placeholder="Password" required>
+                  <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                  <button type="submit" id="sign-up-submit">Sign Up</button>
+              </div>
               <button class="alt-login-button">
                 <img src="images/fbicon.png" alt="Log in with Facebook">
               </button>
@@ -28,4 +46,5 @@
           </div>
         </div>
       </body>
+      <script src="script.js"></script>
 </html>
