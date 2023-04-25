@@ -1,16 +1,27 @@
 window.addEventListener('load', () => {
   /*-----------------LOG IN-----------------*/
 
+  const currentPage = window.location.pathname.split('/').pop();
+  console.log('currentPage: ', currentPage)
+
+  
+  
+  if(currentPage === 'index.html' || currentPage === '') {
   const signUpLink = document.getElementById('sign-up-link');
   const signUpSubmit = document.getElementById('sign-up-submit');
   const signUpModal = document.querySelector('.sign-up-modal');
+  
+  if (signUpLink && signUpModal) {
+    signUpLink.addEventListener('click', () => {
+      signUpModal.removeAttribute('hidden');
+    });
+  }
 
-  signUpLink.addEventListener('click', () => {
-    signUpModal.removeAttribute('hidden');
-  });
 
-  const users = [];
+  
+  const users = JSON.parse(localStorage.getItem('user')) || [];
 
+  if(signUpSubmit) {
   signUpSubmit.addEventListener('click', () => {
     const firstName = document.getElementById('first_name').value;
     const lastName = document.getElementById('last_name').value;
@@ -36,37 +47,50 @@ window.addEventListener('load', () => {
         email,
         password
       });
-
+      
       localStorage.setItem('user', JSON.stringify(users));
       signUpModal.setAttribute('hidden', true);
     }
   });
+}
 
   const logInSubmit = document.getElementById('log-in-btn');
-
-  logInSubmit.addEventListener('click', () => {
+  
+  if (logInSubmit) {
+  logInSubmit.addEventListener('click', (e) => {
+    e.preventDefault();
     const email = document.getElementById('log-in-email').value;
     const password = document.getElementById('log-in-password').value;
+
+    const updatedUsers = JSON.parse(localStorage.getItem('user')) || []; // Fetch the updated users array from localStorage
+
+    
 
     if (!email || !password) {
       alert('Please fill out all fields');
       return;
-    } else if (!users.find(user => user.email === email)) {
+    } else if (!updatedUsers.find(user => user.email === email)) {
       alert('Email does not exist');
       return;
-    } else if (users.find(user => user.email === email && user.password !== password)) {
+    } else if (updatedUsers.find(user => user.email === email && user.password !== password)) {
       alert('Incorrect password');
       return;
     } else {
       localStorage.setItem('currentUser', email);
-      window.location.href = 'home.html';
+      console.log('About to Redirect');
+      // debugger;
+      setTimeout(() => {document.location.href = "pages/home.html"},100);
+      // window.location.href = 'https://www.google.com';
+      // window.history.pushState({}, '', 'https://www.google.com');
+      console.log("successfully redirected")
     }
   }); 
-
+  };
+} else if ( currentPage === 'home.html') {
+  console.log('currentPage: ', currentPage)
   /*-----------------HOME-----------------*/
-
-  const savedUsers = JSON.parse(localStorage.getItem('user'));
-  console.log(savedUsers);
+  console.log('currentPage: ', currentPage)
+  const currentUserEmail = localStorage.getItem('currentUser');
 
 
   /*------CALENDAR----------*/
@@ -82,7 +106,15 @@ window.addEventListener('load', () => {
     const eventInput= document.getElementById('eventInput');
     const dayTitle = document.querySelector('.eventTitle');
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const exerciseData = Object.values(localStorage).map(data => JSON.parse(data)).filter(data => data.exercise);
+    const exerciseData = Object.values(localStorage).filter(data => {
+      try {
+        const jsonData = JSON.parse(data);
+        return jsonData && jsonData.exercise;
+      } catch (error) {
+        return false;
+      }
+    }).map(data => JSON.parse(data));
+
     console.log(exerciseData);
 
     function openModal(date) {
@@ -268,7 +300,7 @@ window.addEventListener('load', () => {
       if (nav !== 0) {
         dt.setMonth(new Date().getMonth() + nav)
       }
-
+      console.log(nav)
       const day = dt.getDate();
       const month = dt.getMonth();
       const year = dt.getFullYear();
@@ -284,7 +316,8 @@ window.addEventListener('load', () => {
       });
       
       const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
-    
+      console.log(paddingDays);
+
       document.getElementById("monthDisplay").innerText = `${dt.toLocaleDateString('en-us', {
         month: "long"
       })} ${year}`;
@@ -293,8 +326,10 @@ window.addEventListener('load', () => {
 
 
       for(let i = 1; i <= paddingDays + daysInMonth; i++) {
+
         const daySquare = document.createElement('div');
         daySquare.classList.add(`day`);
+        console.log(daySquare)
 
         const dayString = `${month + 1}/${i - paddingDays}/${year}`;
 
@@ -362,7 +397,7 @@ window.addEventListener('load', () => {
       exerciseData.splice(index, 1);
       localStorage.setItem('exercise', JSON.stringify(exerciseData));
       closeModal();
-    };
+    }
 
     function editEvent(index) {
       const exerciseText = document.getElementById('workoutText');
@@ -390,11 +425,12 @@ window.addEventListener('load', () => {
       // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
       // document.getElementById('closeButton').addEventListener('click', closeModal);
     }
-
-    if (location.pathname === '/home.html') {
+    // const currentPage = window.location.pathname.split('/').pop();
+    // if (location.pathname === '/pages/home.html') {
+    if (currentPage === 'home.html') {
+      console.log('home loaded')
     initButtons();
     load();
-    
 
     form.addEventListener('submit', (e) =>{
         e.preventDefault();
@@ -847,10 +883,11 @@ window.addEventListener('load', () => {
             updateExerciseObject(storageKeys, exerciseObject);
             let exerciseString = JSON.stringify(exerciseObject);
             console.log(exerciseString)
-            localStorage.setItem(`${exerciseObject.exercise}`, exerciseString);
+            localStorage.setItem(`exerciseData_${currentUserEmail}`, exerciseString);
             let exerciseObj = JSON.parse(localStorage.getItem(exerciseObject.exercise))
             console.log(exerciseObject);
             console.log(exerciseObj);
+            
 
             if(exerciseObject) {
               const dateObj = new Date(exerciseObject.date);
@@ -915,9 +952,10 @@ window.addEventListener('load', () => {
             exerciseObject[rep.id] = rep.value;
             exerciseObject[weight.id] = weight.value;
             const exerciseString = JSON.stringify(exerciseObject);
-            localStorage.setItem(`${exerciseObject.exercise}`, exerciseString);
+            localStorage.setItem(`exerciseData_${currentUserEmail}`, exerciseString);
             } 
           }
+      localStorage.setItem(`exerciseData_${currentUserEmail}`, JSON.stringify(exerciseObject));
       let exerciseObj = JSON.parse(localStorage.getItem("exerciseObject"))
       console.log(exerciseObj);
 
@@ -961,5 +999,71 @@ window.addEventListener('load', () => {
       location.reload(); 
     }, 0);
   });
-}       
+
+  addRoundsBtn.addEventListener('click', () => {
+    const exerciseKey = exerciseObject.exercise;
+
+    for(let i = 1; ; i++) {
+        const mins = document.getElementById(`mins_${i}`);
+
+        if(!mins) {
+            break;
+        };
+
+        if (mins) {           
+            if (!mins.value) {
+                alert(`Please enter the amount of minutes for round ${i}.`);
+                return;
+            }
+
+            exerciseObject[mins.id] = mins.value;
+            const exerciseString = JSON.stringify(exerciseObject);
+            localStorage.setItem(`exerciseData_${currentUserEmail}`, exerciseString);
+        } 
+    }
+
+    let exerciseObj = JSON.parse(localStorage.getItem(`exerciseData_${currentUserEmail}`));
+    console.log(exerciseObj);
+
+    const exerciseLoggedData = JSON.parse(localStorage.getItem(exerciseKey));
+    console.log(exerciseLoggedData);
+
+    if(exerciseLoggedData) {
+        const dateObj = new Date(exerciseLoggedData.date);
+        const month = dateObj.toLocaleDateString('default', {month: 'long'});
+        const year = dateObj.getFullYear();
+        const day = dateObj.getDate();
+        console.log(month);
+        console.log(year);
+        console.log(day);
+        const monthDisplay = document.querySelector('#monthDisplay');
+        const day_els = document.querySelectorAll('#calendar .day:not([class*="padding"])');
+        
+        day_els.forEach(day_el => {
+            if (monthDisplay.textContent.includes(month) && monthDisplay.textContent.includes(year)) {
+                if (day_el.innerText == day) {
+                    console.log(day_el)
+                    const existingWorkout = day_el.querySelector('.workout_event');
+                    if (existingWorkout) {
+                        existingWorkout.innerText = exerciseKey;
+                    } else {
+                        const workout = document.createElement('div');
+                        workout.classList.add('workout_event');
+                        workout.innerText = exerciseKey;
+                        day_el.appendChild(workout);
+                    }
+                }
+            }
+        }); 
+    }
+    exerciseDataContainer.innerHTML = '';
+    console.log(exerciseDataContainer);
+    setTimeout(() => {
+        load();
+        location.reload(); 
+    }, 0);
+});
+}      
+
+}
 });
